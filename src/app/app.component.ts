@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'docplanner-vue-test';
+  title = 'docplanner-angular-test';
 }

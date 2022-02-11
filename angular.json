@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "docplanner-vue-test"
+    }
+  },
+  "defaultProject": "docplanner-vue-test",
+  "cli": {
+    "analytics": "f47e3928-04a1-4eeb-99a7-2a92924f39f6"
+  }
 }
