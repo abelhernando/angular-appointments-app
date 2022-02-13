@@ -23,9 +23,7 @@ export class BookSlotRepository {
     @Inject(BOOK_SLOT_TOKEN) private bookSlotCreate: BookSlotCreate
   ) {}
 
-  // TODO format yyyyMMdd
   public getByWeek(startDate: Date): Observable<any> {
-    // format date
     const formattedDate = formatDate(startDate);
 
     const url = `${this.url}/GetWeeklySlots/${formattedDate}`;

@@ -4,11 +4,11 @@ import { getMonday, getWeekDays, groupBy } from 'src/app/common/utils/dateUtils'
 import { BookSlotRepository } from '../../bookSlot.repository';
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  selector: 'app-appointment-calendar',
+  templateUrl: './appointment-calendar.component.html',
+  styleUrls: ['./appointment-calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit {
+export class AppointmentCalendarComponent implements OnInit {
   @Output() selectedDate = new EventEmitter();
 
   public calendarDates$ = new BehaviorSubject<any>(null);
@@ -33,6 +33,7 @@ export class CalendarComponent implements OnInit {
   }
 
   private retrieveBookSlots() {
+    // TODO start always in today
     this.getBookSlots();
   }
 
@@ -72,7 +73,7 @@ export class CalendarComponent implements OnInit {
   }
 
   private getClassNames() {
-    const rcn = 'calendar-container';
+    const rcn = 'appointment-calendar-container';
     return {
       root: rcn,
       navigation: `${rcn}__navigation`,

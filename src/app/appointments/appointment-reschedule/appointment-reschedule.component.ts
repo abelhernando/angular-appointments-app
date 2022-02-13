@@ -5,11 +5,11 @@ import { BookingService } from '../booking.service';
 import { BookSlot } from '../BookSlot';
 
 @Component({
-  selector: 'app-reschedule-appointment',
-  templateUrl: './reschedule-appointment.component.html',
-  styleUrls: ['./reschedule-appointment.component.scss'],
+  selector: 'app-appointment-reschedule',
+  templateUrl: './appointment-reschedule.component.html',
+  styleUrls: ['./appointment-reschedule.component.scss'],
 })
-export class RescheduleAppointmentComponent implements OnInit {
+export class AppointmentRescheduleComponent implements OnInit {
   public selectedDate: BookSlot;
   public loading = false;
 

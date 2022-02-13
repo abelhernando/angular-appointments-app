@@ -11,7 +11,7 @@
     <p>You can change the appointment for when it suits you better</p>
   </div>
 
-  <app-calendar (selectedDate)="setSelectedDate($event)"></app-calendar>
+  <app-appointment-calendar (selectedDate)="setSelectedDate($event)"></app-appointment-calendar>
 
   <div *ngIf="selectedDate" class="reschedule-appointment-page__container--reschedule-message">
     <h2>

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RescheduleAppointmentComponent } from './appointments/reschedule-appointment/reschedule-appointment.component';
+import { AppointmentRescheduleComponent } from './appointments/appointment-reschedule/appointment-reschedule.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'appointments/schedule', pathMatch: 'full' },
+  { path: '', redirectTo: 'appointments/reschedule', pathMatch: 'full' },
   {
-    path: 'appointments/schedule',
-    component: RescheduleAppointmentComponent,
+    path: 'appointments/reschedule',
+    component: AppointmentRescheduleComponent,
   },
   { path: '**', redirectTo: '' },
 ];
