@@ -9,9 +9,6 @@ import {
 import { BookSlot } from './book-slot';
 import { BookSlotRepository } from './book-slot.repository';
 
-// initialdate -> dia que requiere la api
-// pedir nextweek si no es lunes
-// partir desde hoy al septimo dia
 @Injectable({
   providedIn: 'root',
 })

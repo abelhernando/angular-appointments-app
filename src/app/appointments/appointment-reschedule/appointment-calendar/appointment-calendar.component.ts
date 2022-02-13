@@ -42,11 +42,17 @@ export class AppointmentCalendarComponent implements OnInit {
 
   public retrieveWeek(direction: 'prev' | 'next'): void {
     const addDays = direction === 'prev' ? -7 : 7;
-    const date = this.initialDate.setDate(this.initialDate.getDate() + addDays);
+    const displayedDate = this.initialDate.setDate(
+      this.initialDate.getDate() + addDays
+    );
+
     this.setIsBeforeToday();
-    this.initialDate = new Date(date);
+    this.initialDate = new Date(displayedDate);
+
     const daysofweek = getWeekDays(this.initialDate);
+    console.log('~ daysofweek', daysofweek);
     this.daysOfWeek$.next(daysofweek);
+
     this.appointmentCalendarService
       .getWeekFromToday(this.initialDate)
       .subscribe();

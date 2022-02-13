@@ -26,7 +26,7 @@
         <tr>
           <th *ngFor="let day of daysOfWeek">
             <p class="day-header">{{ day | dayPipe }}</p>
-            <p class="sub-day-header">{{ day | shortDatePipe }}</p>
+            <p class="sub-day-header">{{ day | date: "MMM d" }}</p>
           </th>
         </tr>
       </thead>
@@ -41,7 +41,7 @@
                 (click)="selectBookingDay(el)"
               >
                 <span>
-                  {{ el.start | timePipe }}
+                  {{ el.start | date: "HH:mm" }}
                 </span>
               </button>
             </tr>
