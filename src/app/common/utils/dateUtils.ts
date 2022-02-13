@@ -33,13 +33,11 @@ export function groupBy(
   return map;
 }
 
-export function getWeekDays(date: Date) {
-  const d = new Date(date);
-
+export function getWeekDays(date: Date): Date[] {
   const sevenDays = [...Array(7).keys()];
 
-  return sevenDays.reduce((a, c, i) => {
-    const day = new Date(d.setDate(d.getDate() - d.getDay() + i));
+  return sevenDays.reduce((a, c) => {
+    const day = new Date(date.setDate(date.getDate() - date.getDay() + c));
     return [...a, day];
   }, []);
 }
@@ -50,7 +48,7 @@ export function groupByDate(list: any[], key: string) {
   });
 }
 
-export function getDaysBetween(list: any[], start, end): any[] {
+export function getDaysBetween(list: any[], start: Date, end: Date): any[] {
   return list.filter((f) => {
     const curr = new Date(f.start).getTime();
     const s = start.getTime();
@@ -58,4 +56,12 @@ export function getDaysBetween(list: any[], start, end): any[] {
 
     return curr >= s && curr <= e;
   });
+}
+
+export function isSameDate(d1: Date, d2: Date): boolean {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
 }

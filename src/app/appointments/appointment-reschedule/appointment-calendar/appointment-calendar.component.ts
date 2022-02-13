@@ -31,7 +31,7 @@ export class AppointmentCalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialDate = calendarInitialDate(new Date());
-    const daysofweek = getWeekDays(this.initialDate);
+    const daysofweek = getWeekDays(new Date());
     this.daysOfWeek$.next(daysofweek);
   }
 
@@ -49,7 +49,6 @@ export class AppointmentCalendarComponent implements OnInit {
     this.initialDate = new Date(displayedDate);
 
     const daysofweek = getWeekDays(this.initialDate);
-    console.log('~ daysofweek', daysofweek);
     this.daysOfWeek$.next(daysofweek);
 
     this.appointmentCalendarService
@@ -57,17 +56,17 @@ export class AppointmentCalendarComponent implements OnInit {
       .subscribe();
   }
 
-  private setIsBeforeToday() {
+  private setIsBeforeToday(): void {
     this.isBeforeToday =
       calendarInitialDate(new Date(this.initialDate)) <=
       calendarInitialDate(new Date());
   }
 
-  public toggleTableVisibility() {
+  public toggleTableVisibility(): void {
     this.isMinimized = !this.isMinimized;
   }
 
-  private getClassNames() {
+  private getClassNames(): {} {
     const rcn = 'appointment-calendar-container';
     return {
       root: rcn,

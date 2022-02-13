@@ -33,7 +33,7 @@
       <tbody>
         <ng-container *ngFor="let day of daysOfWeek; let i = index">
           <td>
-            <tr *ngFor="let el of calendarSlots.get(i)">
+            <tr *ngFor="let el of calendarSlots.get(day.getDay())">
               <button
                 mat-stroked-button
                 color="primary"
