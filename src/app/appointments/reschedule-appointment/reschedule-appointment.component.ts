@@ -1,0 +1,50 @@
+import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
+import { LoaderService } from 'src/app/shared/loader.service';
+import { BookingService } from '../booking.service';
+import { BookSlot } from '../BookSlot';
+
+@Component({
+  selector: 'app-reschedule-appointment',
+  templateUrl: './reschedule-appointment.component.html',
+  styleUrls: ['./reschedule-appointment.component.scss'],
+})
+export class RescheduleAppointmentComponent implements OnInit {
+  public selectedDate: BookSlot;
+  public loading = false;
+
+  public reservationDate = new Date('21 May 2022 10:30');
+
+  constructor(
+    private bookingService: BookingService,
+    private loaderService: LoaderService
+  ) {
+    this.loaderService.isLoading.pipe(delay(0)).subscribe((isLoading) => {
+      this.loading = isLoading;
+    });
+  }
+
+  ngOnInit(): void {}
+
+  public setSelectedDate(slot: BookSlot): void {
+    this.selectedDate = slot;
+  }
+
+  public confirmBookAction() {
+    this.reservationDate = this.selectedDate.start;
+    this.selectedDate = null;
+
+    const data = {
+      Start: this.selectedDate.start,
+      End: this.selectedDate.end,
+      Comments: 'Reschedule petition',
+      Patient: {
+        Name: 'John',
+        SecondName: 'Doe',
+        Email: 'john.doe@mail.net',
+        Phone: '737177888',
+      },
+    };
+    this.bookingService.postBookDate(data).subscribe();
+  }
+}

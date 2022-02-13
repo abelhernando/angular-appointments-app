@@ -1,0 +1,15 @@
+<div class="appointment__resume">
+  <div *ngIf="loading; else notLoading" class="appointment__resume--loading">
+    <mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon>
+    <p>
+      <s>On {{ reservationDate | date: "full" }}</s>
+    </p>
+  </div>
+
+  <ng-template #notLoading>
+    <div>
+      <img src="../../../assets/icons/calendar.svg" width="16" alt="" />
+      <p>On {{ reservationDate | date: "full" }}</p>
+    </div>
+  </ng-template>
+</div>

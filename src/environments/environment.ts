@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  host: 'https://draliatest.azurewebsites.net',
+  apiUrl: 'https://draliatest.azurewebsites.net/api',
 };
 
 /*

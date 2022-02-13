@@ -1,0 +1,63 @@
+<div class="{{ cn.root }}" *ngIf="calendarDates$ | async as calendarDate">
+  <div class="{{ cn.navigation }}">
+    <button
+      mat-icon-button
+      color="primary"
+      class="{{ cn.navigationButton }}"
+      [disabled]="isBeforeToday"
+      (click)="retrieveWeek('prev')"
+    >
+      <img src="../../../assets/icons/chevron-left.svg" width="16" alt="" />
+    </button>
+
+    <button
+      mat-icon-button
+      color="primary"
+      class="{{ cn.navigationButton }}"
+      (click)="retrieveWeek('next')"
+    >
+      <img src="../../../assets/icons/chevron-right.svg" width="16" alt="" />
+    </button>
+  </div>
+
+  <table [ngClass]="{ minimized: isMinimized }">
+    <ng-container *ngIf="daysOfWeek$ | async as daysOfWeek">
+      <thead>
+        <tr>
+          <th *ngFor="let day of daysOfWeek">
+            <p class="day-header">{{ day | dayPipe }}</p>
+            <p class="sub-day-header">{{ day | shortDatePipe }}</p>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let day of daysOfWeek; let i = index">
+          <td>
+            <tr *ngFor="let el of calendarDate.get(i)">
+              <button
+                mat-stroked-button
+                color="primary"
+                disabled="{{ el.isTaken }}"
+                (click)="selectBookingDay(el)"
+              >
+                <span>
+                  {{ el.start | timePipe }}
+                </span>
+              </button>
+            </tr>
+          </td>
+        </ng-container>
+      </tbody>
+    </ng-container>
+  </table>
+  <div class="{{ cn.expandButton }}">
+    <div *ngIf="isMinimized" (click)="toggleTableVisibility()">
+      <span> See more hours </span>
+      <img src="../../../assets/icons/chevron-down.svg" width="16" alt="" />
+    </div>
+    <div *ngIf="!isMinimized" (click)="toggleTableVisibility()">
+      <span> See less </span>
+      <img src="../../../assets/icons/chevron-up.svg" width="16" alt="" />
+    </div>
+  </div>
+</div>
