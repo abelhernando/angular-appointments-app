@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
   name: 'timePipe',
 })
 export class TimePipe extends DatePipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: Date): string {
     return super.transform(value, 'HH:mm');
   }
 }

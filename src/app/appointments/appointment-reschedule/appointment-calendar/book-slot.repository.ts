@@ -3,13 +3,9 @@ import { Inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import {
-  BookSlotCreate,
-  BookSlotDto,
-  BOOK_SLOT_TOKEN,
-} from './BookSlot';
-import { BookSlotCacheMemoryService } from '../shared/book-slot.cache.service';
-import { formatDate } from '../common/utils/dateUtils';
+import { BookSlotCreate, BookSlotDto, BOOK_SLOT_TOKEN } from './book-slot';
+import { BookSlotCacheMemoryService } from '../../../shared/book-slot.cache.service';
+import { formatDate } from '../../../common/utils/dateUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +33,7 @@ export class BookSlotRepository {
         response.map((data) => this.bookSlotCreate(data))
       ),
       tap({
-        next: (response) => this.bookSlotCache.add(url, response),
+        next: (response) => this.bookSlotCache.add(formattedDate, response),
       }),
       catchError((error: Error) => {
         console.warn('Error on the HTTP request: ', error);

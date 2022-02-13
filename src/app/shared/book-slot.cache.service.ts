@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BookSlot } from '../appointments/BookSlot';
+import { BookSlot } from '../appointments/appointment-reschedule/appointment-calendar/book-slot';
 
 @Injectable({
   providedIn: 'root',

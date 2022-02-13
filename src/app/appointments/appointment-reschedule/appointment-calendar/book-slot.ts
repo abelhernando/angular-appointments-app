@@ -4,7 +4,6 @@ export type BookSlotCreate = (slot: BookSlotDto) => BookSlot;
 
 export const BOOK_SLOT_TOKEN = new InjectionToken<BookSlotCreate>('book_slot');
 
-// data transfer object
 export interface BookSlotDto {
   End: Date;
   Start: Date;

@@ -11,6 +11,7 @@ export class BookingService {
 
   constructor(private http: HttpClient) {}
 
+  // TODO any
   public postBookDate(data: any) {
     const url = `${this.url}/BookSlot`;
 
