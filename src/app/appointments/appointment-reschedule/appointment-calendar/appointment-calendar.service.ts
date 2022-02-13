@@ -22,9 +22,12 @@ export class AppointmentCalendarService {
   constructor(private bookSlotRepository: BookSlotRepository) {}
 
   getWeekFromToday(date = new Date()) {
-    const initialDayWeek = calendarInitialDate(date);
+    const newDate = new Date(date);
+    const initialDayWeek = calendarInitialDate(newDate);
 
-    const nextWeek = new Date(date.setDate(date.getDate() + this.WEEK_NUMBER));
+    const nextWeek = new Date(
+      new Date(newDate).setDate(newDate.getDate() + this.WEEK_NUMBER)
+    );
 
     const nextInitialWeek = calendarInitialDate(nextWeek);
 
@@ -36,7 +39,7 @@ export class AppointmentCalendarService {
         const slotGroup = [...initial, ...next];
         const currentSlots: BookSlot[] = getDaysBetween(
           slotGroup,
-          new Date(2022, 1, 15, 11),
+          date,
           nextWeek
         );
         const groupByDay = groupByDate(currentSlots, 'start');
@@ -54,20 +57,7 @@ export class AppointmentCalendarService {
     this.initialDate = new Date(date);
   }
 
-  private isFirstDayOfWeek(date: Date) {
-    return new Date(date).getDay() === 1;
-  }
-
-  private isBeforeToday(date: Date) {
-    return new Date(date).getDate() < new Date().getDate();
-  }
-  // getNextWeek() {
-  //   const date = this.initialDate.setDate(
-  //     this.initialDate.getDate() + this.WEEK_NUMBER
-  //   );
-  // }
-
-  getWeek(target: Date) {
+  private getWeek(target: Date) {
     return this.bookSlotRepository.getByWeek(target);
   }
 }

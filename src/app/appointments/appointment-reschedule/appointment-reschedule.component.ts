@@ -31,6 +31,7 @@ export class AppointmentRescheduleComponent implements OnInit {
   }
 
   public confirmBookAction() {
+    this.loaderService.setIsLoading(true);
     this.reservationDate = this.selectedDate.start;
 
     const data = {
@@ -46,5 +47,7 @@ export class AppointmentRescheduleComponent implements OnInit {
     };
     this.bookingService.postBookDate(data).subscribe();
     this.selectedDate = null;
+
+    setTimeout(() => this.loaderService.setIsLoading(false), 1000);
   }
 }

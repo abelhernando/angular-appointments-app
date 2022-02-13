@@ -7,7 +7,6 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoaderInterceptorService } from './shared/loader.interceptor.service';
 import { LoaderService } from './shared/loader.service';
 
 @NgModule({
@@ -20,14 +19,7 @@ import { LoaderService } from './shared/loader.service';
     CoreModule,
     BrowserAnimationsModule,
   ],
-  providers: [
-    LoaderService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptorService,
-      multi: true,
-    },
-  ],
+  providers: [LoaderService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -16,7 +16,7 @@ import { BookSlotRepository } from './book-slot.repository';
 export class AppointmentCalendarComponent implements OnInit {
   @Output() selectedDate = new EventEmitter();
 
-  public calendarDates$ = this.appointmentCalendarService.getWeekFromToday();
+  public calendarSlots$ = this.appointmentCalendarService.getWeekFromToday();
 
   public daysOfWeek$ = new BehaviorSubject<Date[]>([]);
 
@@ -24,7 +24,7 @@ export class AppointmentCalendarComponent implements OnInit {
 
   public isMinimized = true;
 
-  private initialDate = null;
+  public initialDate = null;
 
   public cn = this.getClassNames();
 
@@ -43,16 +43,19 @@ export class AppointmentCalendarComponent implements OnInit {
   public retrieveWeek(direction: 'prev' | 'next'): void {
     const addDays = direction === 'prev' ? -7 : 7;
     const date = this.initialDate.setDate(this.initialDate.getDate() + addDays);
-
     this.setIsBeforeToday();
     this.initialDate = new Date(date);
-    this.calendarDates$ = this.appointmentCalendarService.getWeekFromToday(
-      this.initialDate
-    );
+    const daysofweek = getWeekDays(this.initialDate);
+    this.daysOfWeek$.next(daysofweek);
+    this.appointmentCalendarService
+      .getWeekFromToday(this.initialDate)
+      .subscribe();
   }
 
   private setIsBeforeToday() {
-    this.isBeforeToday = new Date(this.initialDate) < new Date();
+    this.isBeforeToday =
+      calendarInitialDate(new Date(this.initialDate)) <=
+      calendarInitialDate(new Date());
   }
 
   public toggleTableVisibility() {

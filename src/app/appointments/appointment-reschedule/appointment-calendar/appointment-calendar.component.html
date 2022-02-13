@@ -1,4 +1,4 @@
-<div class="{{ cn.root }}" *ngIf="calendarDates$ | async as calendarDate">
+<div class="{{ cn.root }}" *ngIf="calendarSlots$ | async as calendarSlots">
   <div class="{{ cn.navigation }}">
     <button
       mat-icon-button
@@ -33,7 +33,7 @@
       <tbody>
         <ng-container *ngFor="let day of daysOfWeek; let i = index">
           <td>
-            <tr *ngFor="let el of calendarDate.get(i)">
+            <tr *ngFor="let el of calendarSlots.get(i)">
               <button
                 mat-stroked-button
                 color="primary"
