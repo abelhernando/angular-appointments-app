@@ -16,7 +16,7 @@ import { BookSlotRepository } from './book-slot.repository';
 export class AppointmentCalendarComponent implements OnInit {
   @Output() selectedDate = new EventEmitter();
 
-  public calendarDates$ = new BehaviorSubject<any>(null);
+  public calendarDates$ = this.appointmentCalendarService.getWeekFromToday();
 
   public daysOfWeek$ = new BehaviorSubject<Date[]>([]);
 
@@ -28,26 +28,12 @@ export class AppointmentCalendarComponent implements OnInit {
 
   public cn = this.getClassNames();
 
-  constructor(
-    private bookSlotRepository: BookSlotRepository,
-    private appointmentCalendarService: AppointmentCalendarService
-  ) {}
+  constructor(private appointmentCalendarService: AppointmentCalendarService) {}
 
   ngOnInit(): void {
     this.initialDate = calendarInitialDate(new Date());
-    this.appointmentCalendarService.getWeekFromToday();
-    // this.retrieveBookSlots();
-  }
-
-  private retrieveBookSlots() {
-    this.bookSlotRepository
-      .getByWeek(this.initialDate)
-      .subscribe((response) => {
-        const groupByDay = groupByDate(response, 'start');
-        this.calendarDates$.next(groupByDay);
-        const daysofweek = getWeekDays(this.initialDate);
-        this.daysOfWeek$.next(daysofweek);
-      });
+    const daysofweek = getWeekDays(this.initialDate);
+    this.daysOfWeek$.next(daysofweek);
   }
 
   public selectBookingDay(selected: any): void {
@@ -60,7 +46,9 @@ export class AppointmentCalendarComponent implements OnInit {
 
     this.setIsBeforeToday();
     this.initialDate = new Date(date);
-    this.retrieveBookSlots();
+    this.calendarDates$ = this.appointmentCalendarService.getWeekFromToday(
+      this.initialDate
+    );
   }
 
   private setIsBeforeToday() {

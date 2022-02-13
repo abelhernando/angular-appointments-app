@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin, of } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import {
   calendarInitialDate,
+  getDaysBetween,
   groupByDate,
 } from 'src/app/common/utils/dateUtils';
+import { BookSlot } from './book-slot';
 import { BookSlotRepository } from './book-slot.repository';
 
 // initialdate -> dia que requiere la api
@@ -16,29 +18,40 @@ import { BookSlotRepository } from './book-slot.repository';
 export class AppointmentCalendarService {
   private initialDate = null;
   private WEEK_NUMBER = 7;
-  public results$ = new BehaviorSubject<any>(null);
 
   constructor(private bookSlotRepository: BookSlotRepository) {}
 
-  getWeekFromToday() {
-    const initial = calendarInitialDate(new Date(2022, 2, 15, 11));
-    console.log('~ initial', initial);
-    const next = new Date(
-      initial.setDate(initial.getDate() + this.WEEK_NUMBER)
+  getWeekFromToday(date = new Date()) {
+    const initialDayWeek = calendarInitialDate(date);
+
+    const nextWeek = new Date(date.setDate(date.getDate() + this.WEEK_NUMBER));
+
+    const nextInitialWeek = calendarInitialDate(nextWeek);
+
+    const initialSlots = this.getWeek(initialDayWeek);
+    const nextSlots = this.getWeek(nextInitialWeek);
+
+    return forkJoin([initialSlots, nextSlots]).pipe(
+      map(([initial, next]) => {
+        const slotGroup = [...initial, ...next];
+        const currentSlots: BookSlot[] = getDaysBetween(
+          slotGroup,
+          new Date(2022, 1, 15, 11),
+          nextWeek
+        );
+        const groupByDay = groupByDate(currentSlots, 'start');
+        console.log('~ groupByDay', groupByDay);
+
+        return groupByDay;
+      })
     );
+  }
 
-    const initialWeek = this.getWeek(initial);
-    const nextWeek = this.getWeek(next);
+  public retrieveWeek(direction: 'prev' | 'next'): void {
+    const addDays = direction === 'prev' ? -7 : 7;
+    const date = this.initialDate.setDate(this.initialDate.getDate() + addDays);
 
-    const results = forkJoin([initialWeek, nextWeek]).subscribe(
-      ([initial, next]) => {
-        const res = [...initial, ...next];
-        console.log('~ res', res);
-        return res;
-      }
-    );
-
-    this.results$.next(results);
+    this.initialDate = new Date(date);
   }
 
   private isFirstDayOfWeek(date: Date) {

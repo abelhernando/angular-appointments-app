@@ -17,7 +17,7 @@ export function calendarInitialDate(date: Date) {
 }
 
 export function groupBy(
-  list: [],
+  list: any[],
   keyGetter: (item: any) => any
 ): Map<any, any> {
   const map = new Map();
@@ -44,12 +44,18 @@ export function getWeekDays(date: Date) {
   }, []);
 }
 
-export function groupByDate(list: [], key: string) {
+export function groupByDate(list: any[], key: string) {
   return groupBy(list, (element) => {
     return new Date(element[key]).getDay();
   });
 }
 
-export function getDaysBetween(start, end) {
+export function getDaysBetween(list: any[], start, end): any[] {
+  return list.filter((f) => {
+    const curr = new Date(f.start).getTime();
+    const s = start.getTime();
+    const e = end.getTime();
 
-};
+    return curr >= s && curr <= e;
+  });
+}
