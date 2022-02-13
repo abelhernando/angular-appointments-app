@@ -10,9 +10,9 @@ export function getFormatedNextWeek() {
   return formatDate(getNextFirstDayOfWeek());
 }
 
-export function getMonday(date: Date) {
+export function calendarInitialDate(date: Date) {
   const day = date.getDay();
-  const diff = date.getDate() - day + (day == 0 ? + 1 : 1);
+  const diff = date.getDate() - day + (day == 0 ? +1 : 1);
   return new Date(date.setDate(diff));
 }
 
@@ -43,3 +43,13 @@ export function getWeekDays(date: Date) {
     return [...a, day];
   }, []);
 }
+
+export function groupByDate(list: [], key: string) {
+  return groupBy(list, (element) => {
+    return new Date(element[key]).getDay();
+  });
+}
+
+export function getDaysBetween(start, end) {
+
+};

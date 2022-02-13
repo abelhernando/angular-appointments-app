@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { LoaderService } from 'src/app/shared/loader.service';
-import { BookingService } from '../booking.service';
-import { BookSlot } from '../BookSlot';
+import { BookingService } from '../appointments-booking.service';
+import { BookSlot } from '../appointment-reschedule/appointment-calendar/book-slot';
 
 @Component({
   selector: 'app-appointment-reschedule',
@@ -32,7 +32,6 @@ export class AppointmentRescheduleComponent implements OnInit {
 
   public confirmBookAction() {
     this.reservationDate = this.selectedDate.start;
-    this.selectedDate = null;
 
     const data = {
       Start: this.selectedDate.start,
@@ -46,5 +45,6 @@ export class AppointmentRescheduleComponent implements OnInit {
       },
     };
     this.bookingService.postBookDate(data).subscribe();
+    this.selectedDate = null;
   }
 }

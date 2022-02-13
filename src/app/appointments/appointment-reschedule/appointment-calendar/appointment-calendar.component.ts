@@ -1,7 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { getMonday, getWeekDays, groupBy } from 'src/app/common/utils/dateUtils';
-import { BookSlotRepository } from '../../bookSlot.repository';
+import {
+  calendarInitialDate,
+  getWeekDays,
+  groupByDate,
+} from 'src/app/common/utils/dateUtils';
+import { AppointmentCalendarService } from './appointment-calendar.service';
+import { BookSlotRepository } from './book-slot.repository';
 
 @Component({
   selector: 'app-appointment-calendar',
@@ -19,34 +24,28 @@ export class AppointmentCalendarComponent implements OnInit {
 
   public isMinimized = true;
 
-  private currentMonday = null;
+  private initialDate = null;
 
   public cn = this.getClassNames();
 
-  constructor(private bookSlotRepository: BookSlotRepository) {}
+  constructor(
+    private bookSlotRepository: BookSlotRepository,
+    private appointmentCalendarService: AppointmentCalendarService
+  ) {}
 
   ngOnInit(): void {
-    this.currentMonday = getMonday(new Date());
-    const daysofweek = getWeekDays(this.currentMonday);
-    this.daysOfWeek$.next(daysofweek);
-    this.retrieveBookSlots();
+    this.initialDate = calendarInitialDate(new Date());
+    this.appointmentCalendarService.getWeekFromToday();
+    // this.retrieveBookSlots();
   }
 
   private retrieveBookSlots() {
-    // TODO start always in today
-    this.getBookSlots();
-  }
-
-  public getBookSlots() {
     this.bookSlotRepository
-      .getByWeek(this.currentMonday)
-      .pipe()
+      .getByWeek(this.initialDate)
       .subscribe((response) => {
-        const result = groupBy(response, (res) => {
-          return new Date(res.start).getDay();
-        });
-        this.calendarDates$.next(result);
-        const daysofweek = getWeekDays(this.currentMonday);
+        const groupByDay = groupByDate(response, 'start');
+        this.calendarDates$.next(groupByDay);
+        const daysofweek = getWeekDays(this.initialDate);
         this.daysOfWeek$.next(daysofweek);
       });
   }
@@ -56,16 +55,16 @@ export class AppointmentCalendarComponent implements OnInit {
   }
 
   public retrieveWeek(direction: 'prev' | 'next'): void {
-    let date: string;
-    if (direction === 'prev') {
-      date = this.currentMonday.setDate(this.currentMonday.getDate() - 7);
-    } else {
-      date = this.currentMonday.setDate(this.currentMonday.getDate() + 7);
-    }
+    const addDays = direction === 'prev' ? -7 : 7;
+    const date = this.initialDate.setDate(this.initialDate.getDate() + addDays);
 
-    this.isBeforeToday = new Date(this.currentMonday) < new Date();
-    this.currentMonday = new Date(date);
+    this.setIsBeforeToday();
+    this.initialDate = new Date(date);
     this.retrieveBookSlots();
+  }
+
+  private setIsBeforeToday() {
+    this.isBeforeToday = new Date(this.initialDate) < new Date();
   }
 
   public toggleTableVisibility() {
