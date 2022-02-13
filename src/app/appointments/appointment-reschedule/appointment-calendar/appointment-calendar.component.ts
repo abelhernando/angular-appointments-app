@@ -3,10 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import {
   calendarInitialDate,
   getWeekDays,
-  groupByDate,
 } from 'src/app/common/utils/dateUtils';
 import { AppointmentCalendarService } from './appointment-calendar.service';
-import { BookSlotRepository } from './book-slot.repository';
+import { BookSlot } from './book-slot';
 
 @Component({
   selector: 'app-appointment-calendar',
@@ -36,7 +35,7 @@ export class AppointmentCalendarComponent implements OnInit {
     this.daysOfWeek$.next(daysofweek);
   }
 
-  public selectBookingDay(selected: any): void {
+  public selectBookingDay(selected: BookSlot): void {
     this.selectedDate.emit(selected);
   }
 

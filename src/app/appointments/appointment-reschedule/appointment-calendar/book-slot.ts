@@ -1,14 +1,7 @@
 import { InjectionToken } from '@angular/core';
-
-export type BookSlotCreate = (slot: BookSlotDto) => BookSlot;
+import { BookSlotCreate, BookSlotDto } from '../../appointments.models';
 
 export const BOOK_SLOT_TOKEN = new InjectionToken<BookSlotCreate>('book_slot');
-
-export interface BookSlotDto {
-  End: Date;
-  Start: Date;
-  Taken: boolean;
-}
 
 export class BookSlot {
   public readonly end: Date;

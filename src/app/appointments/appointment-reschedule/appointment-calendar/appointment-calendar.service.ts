@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, forkJoin, of } from 'rxjs';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   calendarInitialDate,
   getDaysBetween,
@@ -18,7 +18,7 @@ export class AppointmentCalendarService {
 
   constructor(private bookSlotRepository: BookSlotRepository) {}
 
-  getWeekFromToday(date = new Date()) {
+  getWeekFromToday(date = new Date()): Observable<Map<number, BookSlot[]>> {
     const newDate = new Date(date);
     const initialDayWeek = calendarInitialDate(newDate);
 
@@ -54,7 +54,7 @@ export class AppointmentCalendarService {
     this.initialDate = new Date(date);
   }
 
-  private getWeek(target: Date) {
+  private getWeek(target: Date): Observable<any[] | BookSlot[]> {
     return this.bookSlotRepository.getByWeek(target);
   }
 }

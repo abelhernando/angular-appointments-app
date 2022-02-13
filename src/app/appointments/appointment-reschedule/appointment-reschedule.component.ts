@@ -3,6 +3,7 @@ import { delay } from 'rxjs/operators';
 import { LoaderService } from 'src/app/shared/loader.service';
 import { BookingService } from '../appointments-booking.service';
 import { BookSlot } from '../appointment-reschedule/appointment-calendar/book-slot';
+import { postBookDate } from '../appointments.models';
 
 @Component({
   selector: 'app-appointment-reschedule',
@@ -30,11 +31,11 @@ export class AppointmentRescheduleComponent implements OnInit {
     this.selectedDate = slot;
   }
 
-  public confirmBookAction() {
+  public confirmBookAction(): void {
     this.loaderService.setIsLoading(true);
     this.reservationDate = this.selectedDate.start;
 
-    const data = {
+    const data: postBookDate = {
       Start: this.selectedDate.start,
       End: this.selectedDate.end,
       Comments: 'Reschedule petition',
