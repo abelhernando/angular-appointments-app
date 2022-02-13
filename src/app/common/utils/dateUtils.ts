@@ -12,7 +12,7 @@ export function getFormatedNextWeek() {
 
 export function calendarInitialDate(date: Date) {
   const day = date.getDay();
-  const diff = date.getDate() - day + (day == 0 ? +1 : 1);
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
   return new Date(date.setDate(diff));
 }
 
