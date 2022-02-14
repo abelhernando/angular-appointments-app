@@ -41,11 +41,21 @@ export class BookSlotRepository {
     return forkJoin(days);
   }
 
+  private retrieveFromCache(key: string) {
+    return of(this.bookSlotCache.get(key)) as Observable<BookSlot[]>;
+  }
+
   private getByDate(date: Date): Observable<BookSlot[]> {
     const current = new Date(date);
     const initialDay = getWeekMondayByDate(date);
     const apiUrlSegment = formatDate(initialDay);
     const url = `${this.url}/GetWeeklySlots/${apiUrlSegment}`;
+
+    if (this.bookSlotCache.has(formatDate(current))) {
+      return this.retrieveFromCache(formatDate(current));
+    }
+
+    this.bookSlotCache.add(formatDate(current), []);
 
     return this.http.get(url).pipe(
       switchMap((slots: BookSlotDto[]) => slots),
@@ -55,30 +65,14 @@ export class BookSlotRepository {
         return isSame;
       }),
       map((slot) => this.bookSlotCreate(slot)),
-      toArray()
+      toArray(),
+      tap({
+        next: (response) => {
+          if (response.length) {
+            this.bookSlotCache.add(formatDate(response[0].start), response);
+          }
+        },
+      })
     );
   }
-
-  // public getByWeek(startDate: Date): Observable<any[] | BookSlot[]> {
-  //   const formattedDate = formatDate(startDate);
-
-  //   const url = `${this.url}/GetWeeklySlots/${formattedDate}`;
-
-  //   if (this.bookSlotCache.has(formattedDate)) {
-  //     return of(this.bookSlotCache.get(formattedDate)) as Observable<BookSlot[]>;
-  //   }
-
-  //   return this.http.get(url).pipe(
-  //     map((response: BookSlotDto[]) =>
-  //       response.map((data) => this.bookSlotCreate(data))
-  //     ),
-  //     tap({
-  //       next: (response) => this.bookSlotCache.add(formattedDate, response),
-  //     }),
-  //     catchError((error: Error) => {
-  //       console.warn('Error on the HTTP request: ', error);
-  //       return of([]);
-  //     })
-  //   );
-  // }
 }
