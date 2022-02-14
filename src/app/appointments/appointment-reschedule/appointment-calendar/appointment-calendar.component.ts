@@ -30,11 +30,12 @@ export class AppointmentCalendarComponent implements OnInit {
   constructor(private appointmentCalendarService: AppointmentCalendarService) {}
 
   ngOnInit(): void {
-    this.initialDate = new Date();
     const daysofweek = getWeekDays(new Date());
+    this.initialDate = new Date();
     this.daysOfWeek$.next(daysofweek);
+    this.calendarSlots$.subscribe(console.log);
 
-    this.calendarSlots$.subscribe();
+    this.appointmentCalendarService.getNewSlots(new Date());
   }
 
   public selectBookingDay(selected: BookSlot): void {
@@ -52,9 +53,7 @@ export class AppointmentCalendarComponent implements OnInit {
     const daysofweek = getWeekDays(this.initialDate);
     this.daysOfWeek$.next(daysofweek);
 
-    this.calendarSlots$ = this.appointmentCalendarService.getWeekFromToday(
-      this.initialDate
-    );
+    this.appointmentCalendarService.getNewSlots(this.initialDate);
   }
 
   private setIsBeforeToday(): void {

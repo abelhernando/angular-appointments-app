@@ -10,6 +10,12 @@ export function getFormatedNextWeek() {
   return formatDate(getNextFirstDayOfWeek());
 }
 
+export function getWeekMondayByDate(date: Date): Date {
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(date.setDate(diff));
+}
+
 export function calendarInitialDate(date: Date) {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1);
@@ -43,6 +49,12 @@ export function getWeekDays(date: Date): Date[] {
 }
 
 export function groupByDate(list: any[], key: string) {
+  return groupBy(list, (element) => {
+    return new Date(element[key]).getDay();
+  });
+}
+
+export function convertToMap(list: any[], key: string) {
   return groupBy(list, (element) => {
     return new Date(element[key]).getDay();
   });
