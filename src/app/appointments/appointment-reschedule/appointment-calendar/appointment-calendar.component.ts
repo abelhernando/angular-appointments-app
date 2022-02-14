@@ -1,9 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {
-  calendarInitialDate,
-  getWeekDays,
-} from 'src/app/common/utils/dateUtils';
+import { getWeekDays, isBeforeToday } from 'src/app/common/utils/dateUtils';
 import { AppointmentCalendarService } from './appointment-calendar.service';
 import { BookSlot } from './book-slot';
 
@@ -47,8 +44,8 @@ export class AppointmentCalendarComponent implements OnInit {
     const date = new Date(this.initialDate);
     const displayedDate = date.setDate(date.getDate() + addDays);
 
-    this.setIsBeforeToday();
     this.initialDate = new Date(displayedDate);
+    this.setIsBeforeToday();
 
     const daysofweek = getWeekDays(this.initialDate);
     this.daysOfWeek$.next(daysofweek);
@@ -57,9 +54,7 @@ export class AppointmentCalendarComponent implements OnInit {
   }
 
   private setIsBeforeToday(): void {
-    this.isBeforeToday =
-      calendarInitialDate(new Date(this.initialDate)) <=
-      calendarInitialDate(new Date());
+    this.isBeforeToday = isBeforeToday(this.initialDate);
   }
 
   public toggleTableVisibility(): void {

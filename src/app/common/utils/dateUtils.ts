@@ -39,11 +39,13 @@ export function groupBy(
   return map;
 }
 
-export function getWeekDays(date: Date): Date[] {
+export function getWeekDays(start: Date): Date[] {
   const sevenDays = [...Array(7).keys()];
+  const date = new Date(start);
 
   return sevenDays.reduce((a, c) => {
-    const day = new Date(date.setDate(date.getDate() - date.getDay() + c));
+    const sum = c + 1;
+    const day = new Date(date.setDate(date.getDate() - date.getDay() + sum));
     return [...a, day];
   }, []);
 }
@@ -75,5 +77,12 @@ export function isSameDate(d1: Date, d2: Date): boolean {
     d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate()
+  );
+}
+
+export function isBeforeToday(date: Date): boolean {
+  return (
+    calendarInitialDate(new Date(date.toDateString())) <=
+    calendarInitialDate(new Date(new Date().toDateString()))
   );
 }

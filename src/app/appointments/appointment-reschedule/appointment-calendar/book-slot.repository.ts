@@ -1,13 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import {
-  filter,
-  map,
-  switchMap,
-  tap,
-  toArray,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap, toArray } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
 import { BookSlot, BOOK_SLOT_TOKEN } from './book-slot';
 import { BookSlotCacheMemoryService } from '../../../shared/book-slot.cache.service';
@@ -36,7 +30,7 @@ export class BookSlotRepository {
 
     if (range) {
       for (let index = 1; index <= range; index++) {
-        const dayToAdd = new Date();
+        const dayToAdd = new Date(startDate);
 
         dayToAdd.setDate(date.getDate() + index);
 

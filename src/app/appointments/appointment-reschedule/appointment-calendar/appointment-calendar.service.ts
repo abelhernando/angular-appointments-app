@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { BookSlot } from './book-slot';
 import { BookSlotRepository } from './book-slot.repository';
 
@@ -15,6 +15,7 @@ export class AppointmentCalendarService {
     this.calendarSlots$ = this.getNewSlotsS.pipe(
       switchMap((date: Date) => this.getWeekFromDate(date)),
       startWith([]),
+      shareReplay(1) 
     );
   }
 
