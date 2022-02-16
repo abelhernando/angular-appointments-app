@@ -41,11 +41,10 @@ export function groupBy(
 
 export function getWeekDays(start: Date): Date[] {
   const sevenDays = [...Array(7).keys()];
-  const date = new Date(start);
 
   return sevenDays.reduce((a, c) => {
-    const sum = c + 1;
-    const day = new Date(date.setDate(date.getDate() - date.getDay() + sum));
+    const date = new Date(start)
+    const day = new Date(date.setDate(date.getDate() + c));
     return [...a, day];
   }, []);
 }

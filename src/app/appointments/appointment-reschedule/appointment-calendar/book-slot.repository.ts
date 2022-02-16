@@ -30,7 +30,7 @@ export class BookSlotRepository {
 
     if (range) {
       for (let index = 1; index <= range; index++) {
-        const dayToAdd = new Date(startDate);
+        const dayToAdd = new Date(date);
 
         dayToAdd.setDate(date.getDate() + index);
 
@@ -47,10 +47,11 @@ export class BookSlotRepository {
 
   private getByDate(date: Date): Observable<BookSlot[]> {
     const current = new Date(date);
-    const initialDay = getWeekMondayByDate(date);
+    const currentProxy = new Date(date)
+    const initialDay = getWeekMondayByDate(currentProxy);
     const apiUrlSegment = formatDate(initialDay);
     const url = `${this.url}/GetWeeklySlots/${apiUrlSegment}`;
-
+    
     if (this.bookSlotCache.has(formatDate(current))) {
       return this.retrieveFromCache(formatDate(current));
     }

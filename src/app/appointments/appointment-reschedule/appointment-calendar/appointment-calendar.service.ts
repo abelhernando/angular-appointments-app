@@ -15,7 +15,7 @@ export class AppointmentCalendarService {
     this.calendarSlots$ = this.getNewSlotsS.pipe(
       switchMap((date: Date) => this.getWeekFromDate(date)),
       startWith([]),
-      shareReplay(1) 
+      shareReplay(1)
     );
   }
 
