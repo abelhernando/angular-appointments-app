@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "docplanner-vue-test": {
+    "scheduler-vue-test": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/docplanner-vue-test",
+            "outputPath": "dist/scheduler-vue-test",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "docplanner-vue-test:build"
+            "browserTarget": "scheduler-vue-test:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "docplanner-vue-test:build:production"
+              "browserTarget": "scheduler-vue-test:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "docplanner-vue-test:build"
+            "browserTarget": "scheduler-vue-test:build"
           }
         },
         "test": {
@@ -116,18 +116,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "docplanner-vue-test:serve"
+            "devServerTarget": "scheduler-vue-test:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "docplanner-vue-test:serve:production"
+              "devServerTarget": "scheduler-vue-test:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "docplanner-vue-test",
+  "defaultProject": "scheduler-vue-test",
   "cli": {
     "analytics": "f47e3928-04a1-4eeb-99a7-2a92924f39f6"
   }

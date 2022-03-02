@@ -2,7 +2,7 @@
 
 Welcome onboard!
 
-As you may have already seen, we really like to experiment and iterate here at Docplanner and just now we’re dealing with a new amazing feature for our users: **reschedule an appointment!**
+As you may have already seen, we really like to experiment and iterate here at Scheduler and just now we’re dealing with a new amazing feature for our users: **reschedule an appointment!**
 
 So your first task with us will be to develop a fast prototype for a small app that allows our patients to reschedule an existing appointment. This is the design:
 
